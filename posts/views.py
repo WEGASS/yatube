@@ -40,7 +40,7 @@ def new_post(request):
 
 def profile(request, username):
     profile = get_object_or_404(User, username=username)
-    post_list = profile.posts.all()
+    post_list = profile.posts.all().order_by('-pub_date')
     paginator = Paginator(post_list, 5)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
@@ -53,18 +53,22 @@ def post_view(request, username, post_id):
     return render(request, 'post.html', {'post': post, 'profile': profile})
 
 
+@login_required
 def post_edit(request, username, post_id):
     post = get_object_or_404(Post, pk=post_id)
     if request.user != post.author:
         return redirect("post", username=username, post_id=post_id)
-    form = PostForm(instance=post)
+    form = PostForm(request.POST or None, files=request.FILES or None, instance=post)
     if request.method == 'POST':
-        form = PostForm(request.POST)
         if form.is_valid():
-            post.text = form.cleaned_data['text']
-            post.group = form.cleaned_data['group']
             post.save()
             return redirect("post", username=username, post_id=post_id)
     return render(request, 'new_post.html', {'form': form, 'edit': True, 'post': post})
 
 
+def page_not_found(request, exception):
+    return render(request, 'misc/404.html', {'path': request.path}, status=404)
+
+
+def server_error(request):
+    return render(request, 'misc/500.html', status=500)

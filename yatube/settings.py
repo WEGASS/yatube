@@ -25,7 +25,12 @@ SECRET_KEY = 'qbx*ovxps@b0z-vf@@r&6zbzzi$kv$4hiop66ha0eftizyn5d8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "[::1]",
+    "testserver",
+]
 
 
 # Application definition
@@ -41,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -124,8 +130,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 

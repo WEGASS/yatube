@@ -2,12 +2,34 @@
 {% block title %}Последние обновления на сайте{% endblock %}
 {% block header %}Последние обновления на сайте{% endblock %}
 {% block content %}
+{% load thumbnail %}
 
     {% for post in page %}
-        <h3>
-            Автор: {{ post.author.get_full_name }}, Дата публикации: {{ post.pub_date|date:"d M Y" }}
-        </h3>
-        <p>{{ post.text|linebreaksbr }}</p>
+
+                    <!-- Пост -->
+        <div class="card mb-3 mt-1 shadow-sm">
+                        {% thumbnail post.image "960x339" crop="center" upscale=True as im%}
+                            <img class="card-img" src="{{ im.url }}">
+                        {% endthumbnail %}
+                        <div class="card-body">
+                                <p class="card-text">
+                                        <!-- Ссылка на страницу автора в атрибуте href; username автора в тексте ссылки -->
+                                        <a href="/{{ post.author.username }}/"><strong class="d-block text-gray-dark">@{{ post.author.get_full_name }}</strong></a>
+                                        <!-- Текст поста -->
+                                        {{ post.text }}
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group ">
+                                        {% if user == post.author %}
+                                            <a class="btn btn-sm text-muted" href="/{{ profile.username }}/{{ post.pk }}/edit" role="button">Редактировать</a>
+                                        {% endif %}
+                                        <a class="btn btn-sm text-muted" href="/{{ profile.username }}/{{ post.pk }}/" role="button">Добавить комментарий</a>
+                                    </div>
+                                        <!-- Дата публикации  -->
+                                        <small class="text-muted">{{ post.pub_date|date:"d M Y" }}</small>
+                                </div>
+                        </div>
+                </div>
         {% if not forloop.last %}<hr>{% endif %}
     {% endfor %}
 
