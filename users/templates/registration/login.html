@@ -23,7 +23,7 @@
               Вы обратились к странице, доступ к которой возможен только для залогиненных пользователей.<br>
               Пожалуйста, авторизуйтесь.
             </div>
-        {% else %}
+        {% endif %}
         <form method="post" action="{% url 'login' %}">
           {% csrf_token %}
           <input type="hidden" name="next" value="{{ next }}">
