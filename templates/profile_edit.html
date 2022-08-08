@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load user_filters %}
-{% block title %}{% if edit %}Редактирование поста{% else %}Создать новый пост{% endif %}{% endblock %}
-{% block header %}{% if edit %}Редактирование поста{% else %}Создать новый пост{% endif %}{% endblock %}
+{% block title %}{% if edit %}Редактирование поста{% else %}Редактировать профиль{% endif %}{% endblock %}
+{% block header %}{% if edit %}Редактирование поста{% else %}Редактировать профиль{% endif %}{% endblock %}
 {% block content %}
 
 <div class="row justify-content-center">
     <div class="col-md-8 p-5">
         <div class="card">
-            <div class="card-header">Заполните форму</div>
+            <div class="card-header">Отредактируйте данные</div>
             <div class="card-body">
 
                 <form method="post" enctype="multipart/form-data">
@@ -24,7 +24,7 @@
 
                     <div class="col-md-6 offset-md-4">
                             <button type="submit" class="btn btn-primary">
-                                {% if edit %}Сохранить{% else %}Создать{% endif %}
+                                Сохранить
                             </button>
                     </div>
                 </form>
